@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\customer.proto" GrpcServices="Both" ProtoCompile="True" ProtoRoot="Protos\" />
+        <Protobuf Include="Protos\decimal.proto" GrpcServices="Both" ProtoCompile="True" ProtoRoot="Protos\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
+      <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{F1859B5E-F745-4010-B572-E93658BDC6E5}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Client", "ShireBank.Client\ShireBank.Client.csproj", "{0969F5C0-2404-4D4B-A6B5-036E428EC3AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Server", "ShireBank.Server\ShireBank.Server.csproj", "{8BBFA33E-5D9D-4041-8DE6-012C4DC5269D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Shared", "ShireBank.Shared\ShireBank.Shared.csproj", "{CB3F21BC-B9E1-4223-919C-3C28B794C9BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Repository", "ShireBank.Repository\ShireBank.Repository.csproj", "{CF0DE59E-6400-4826-8DDC-7AAFCC193B92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0969F5C0-2404-4D4B-A6B5-036E428EC3AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0969F5C0-2404-4D4B-A6B5-036E428EC3AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0969F5C0-2404-4D4B-A6B5-036E428EC3AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0969F5C0-2404-4D4B-A6B5-036E428EC3AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BBFA33E-5D9D-4041-8DE6-012C4DC5269D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BBFA33E-5D9D-4041-8DE6-012C4DC5269D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BBFA33E-5D9D-4041-8DE6-012C4DC5269D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BBFA33E-5D9D-4041-8DE6-012C4DC5269D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB3F21BC-B9E1-4223-919C-3C28B794C9BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB3F21BC-B9E1-4223-919C-3C28B794C9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB3F21BC-B9E1-4223-919C-3C28B794C9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB3F21BC-B9E1-4223-919C-3C28B794C9BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF0DE59E-6400-4826-8DDC-7AAFCC193B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF0DE59E-6400-4826-8DDC-7AAFCC193B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF0DE59E-6400-4826-8DDC-7AAFCC193B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF0DE59E-6400-4826-8DDC-7AAFCC193B92}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

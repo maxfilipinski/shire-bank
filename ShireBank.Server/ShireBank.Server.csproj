@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
+        <PackageReference Include="Grpc.Core" Version="2.46.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
+        <PackageReference Include="NLog" Version="5.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ShireBank.Repository\ShireBank.Repository.csproj" />
+      <ProjectReference Include="..\ShireBank.Shared\ShireBank.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf ProtoRoot=".." Include="..\ShireBank.Shared\Protos\customer.proto" Link="Protos\customer.proto" GrpcServices="Server" ProtoCompile="False" />
+    </ItemGroup>
+
+</Project>

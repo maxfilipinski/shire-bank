@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "decimal.proto";
+
+option csharp_namespace = "ShireBank.Shared.Protos";
+
+service Customer {
+  rpc OpenAccount (OpenAccountRequest) returns (OpenAccountResponse) {}
+
+  rpc CloseAccount (CloseAccountRequest) returns (CloseAccountResponse) {}
+
+  rpc WithDraw (WithdrawRequest) returns (WithdrawResponse) {}
+
+  rpc Deposit (DepositRequest) returns (DepositResponse) {}
+
+  rpc GetHistory (GetHistoryRequest) returns (GetHistoryResponse) {}
+}
+
+message OpenAccountRequest {
+  string first_name = 1;
+  string last_name = 2;
+  ShireBank.Shared.Types.DecimalValue debt_limit = 3;
+}
+
+message OpenAccountResponse {
+  google.protobuf.UInt32Value account_id = 1;
+}
+
+message CloseAccountRequest {
+  uint32 account_id = 1;
+}
+
+message CloseAccountResponse {
+  bool is_closed = 1;
+}
+
+message WithdrawRequest {
+  uint32 account_id = 1;
+  ShireBank.Shared.Types.DecimalValue amount = 2;
+}
+
+message WithdrawResponse {
+  ShireBank.Shared.Types.DecimalValue value = 1;
+}
+
+message DepositRequest {
+  uint32 account_id = 1;
+  ShireBank.Shared.Types.DecimalValue amount = 2;
+}
+
+message DepositResponse {}
+
+message GetHistoryRequest {
+  uint32 account_id = 1;
+}
+
+message GetHistoryResponse {
+  string history = 1;
+}

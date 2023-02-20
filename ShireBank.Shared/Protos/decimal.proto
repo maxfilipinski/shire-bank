@@ -1,0 +1,18 @@
+// https://stackoverflow.com/questions/65379407/how-to-declare-decimal-object-in-grpc-same-as-c-sharp
+// https://learn.microsoft.com/en-us/dotnet/architecture/grpc-for-wcf-developers/protobuf-data-types#decimals
+syntax = "proto3";
+
+option csharp_namespace = "ShireBank.Shared.Types";
+
+package ShireBank.Shared.Types;
+
+// Example: 12345.6789 -> { units = 12345, nanos = 678900000 }
+message DecimalValue {
+
+  // Whole units part of the amount
+  int64 units = 1;
+
+  // Nano units of the amount (10^-9)
+  // Must be same sign as units
+  sfixed32 nanos = 2;
+}
