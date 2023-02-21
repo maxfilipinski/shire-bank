@@ -1,4 +1,4 @@
-﻿using ShireBank.Shared;
+﻿using ShireBank.Shared.Constants;
 using Grpc.Core;
 using Grpc.Net.Client;
 using NLog;

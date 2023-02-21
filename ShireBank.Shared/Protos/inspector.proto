@@ -7,7 +7,7 @@ service Inspector {
   
   rpc FinishInspection (FinishInspectionRequest) returns (FinishInspectionResponse) {}
   
-  rpc GetFullSummary (stream GetFullSummaryRequest) returns (stream GetFullSummaryResponse) {}
+  rpc GetFullSummary (GetFullSummaryRequest) returns (stream GetFullSummaryResponse) {}
 }
 
 message StartInspectionRequest {}

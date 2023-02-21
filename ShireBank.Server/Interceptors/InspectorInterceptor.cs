@@ -8,10 +8,12 @@ namespace ShireBank.Server.Interceptors;
 public class InspectorInterceptor : Interceptor
 {
     private readonly ILogger<InspectorInterceptor> _logger;
+    private readonly IChannelService _channelService;
 
-    public InspectorInterceptor(ILogger<InspectorInterceptor> logger)
+    public InspectorInterceptor(ILogger<InspectorInterceptor> logger, IChannelService channelService)
     {
         _logger = logger;
+        _channelService = channelService;
     }
 
     public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(
@@ -22,7 +24,7 @@ public class InspectorInterceptor : Interceptor
         try
         {
             if (InspectorService.InspectionInProgress)
-                _logger.LogInformation($"Receiving call: Method: {context.Method}. Type: {request.GetType()}");
+                await _channelService.WriteToChannelAsync(request.ToString(), context.CancellationToken);
             
             return await continuation(request, context);
         }

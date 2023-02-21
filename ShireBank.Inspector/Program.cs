@@ -1,7 +1,7 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
 using NLog;
-using ShireBank.Shared;
+using ShireBank.Shared.Constants;
 using ShireBank.Shared.Protos;
 
 namespace ShireBank.Inspector;
@@ -21,20 +21,19 @@ internal static class Program
         });
 
         var inspector = new ShireBank.Shared.Protos.Inspector.InspectorClient(channel);
-        Logger.Info("Started inspecting...");
+        
         await inspector.StartInspectionAsync(new StartInspectionRequest());
 
         var cancelToken = new CancellationTokenSource();
-        var summary = inspector.GetFullSummary(cancellationToken: cancelToken.Token);
+        var summary = inspector.GetFullSummary(new GetFullSummaryRequest(), cancellationToken: cancelToken.Token);
 
         await foreach(var response in summary.ResponseStream.ReadAllAsync(cancelToken.Token))
-            Logger.Info($"Inspected {response.Summary}");
+            Logger.Info($"Inspected the operation: {response.Summary}");
 
         Console.ReadKey();
         cancelToken.Cancel();
 
         await inspector.FinishInspectionAsync(new FinishInspectionRequest());
-        Logger.Info("Inspecting completed");
 
         Console.ReadKey();
     }

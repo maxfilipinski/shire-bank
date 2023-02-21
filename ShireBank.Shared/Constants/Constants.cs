@@ -1,4 +1,4 @@
-﻿namespace ShireBank.Shared;
+﻿namespace ShireBank.Shared.Constants;
 
 public static class Constants
 {
