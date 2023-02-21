@@ -5,6 +5,6 @@ namespace ShireBank.Repository.Repositories.Interfaces;
 
 public interface IBankTransactionRepository
 {
-    Task<BankTransaction> Create(uint accountId, decimal amount, BankTransactionType transactionType);
+    Task<BankTransaction> Create(uint accountId, decimal amount, BankTransactionType type);
     Task<IEnumerable<BankTransaction>> GetAll(uint accountId);
 }

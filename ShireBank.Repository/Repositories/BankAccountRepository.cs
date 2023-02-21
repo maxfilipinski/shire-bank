@@ -55,11 +55,11 @@ public class BankAccountRepository : IBankAccountRepository
     {
         var account = await _context.Accounts.FindAsync(accountId);
 
-        var available = account.Balance + account.DebtLimit;
-        if (available <= 0) 
+        var availableFunds = account.Balance + account.DebtLimit;
+        if (availableFunds <= 0) 
             return 0;
 
-        var amountToWithdraw = amount > available ? available : amount;
+        var amountToWithdraw = amount > availableFunds ? availableFunds : amount;
 
         var newAccountBalance = account.Balance - amountToWithdraw;
         account.Balance = newAccountBalance;
@@ -72,7 +72,6 @@ public class BankAccountRepository : IBankAccountRepository
     public async Task Deposit(uint accountId, decimal amount)
     {
         var account = await _context.Accounts.FindAsync(accountId);
-
         account.Balance += amount;
 
         await _context.SaveChangesAsync();

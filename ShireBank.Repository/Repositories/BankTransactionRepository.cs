@@ -15,11 +15,10 @@ public class BankTransactionRepository : IBankTransactionRepository
         _context = context;
     }
 
-    public async Task<BankTransaction> Create(uint accountId, decimal amount, BankTransactionType transactionType)
+    public async Task<BankTransaction> Create(uint accountId, decimal amount, BankTransactionType type)
     {
         var account = await _context.Accounts.FindAsync(accountId);
-
-        var bankTransaction = new BankTransaction(account, amount);
+        var bankTransaction = new BankTransaction(account, amount, type);
 
         _context.Transactions.Add(bankTransaction);
         await _context.SaveChangesAsync();

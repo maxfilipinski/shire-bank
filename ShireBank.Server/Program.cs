@@ -6,10 +6,12 @@ using ShireBank.Repository.Repositories;
 using ShireBank.Repository.Repositories.Interfaces;
 using ShireBank.Server.Interceptors;
 using ShireBank.Server.Services;
+using ShireBank.Server.Services.Interfaces;
 using ShireBank.Shared.Constants;
 
 var logger = LogManager
     .Setup()
+    .LoadConfigurationFromAppSettings()
     .GetCurrentClassLogger();
 
 try
@@ -21,7 +23,7 @@ try
     builder.Services.AddTransient<IBankAccountRepository, BankAccountRepository>();
     builder.Services.AddTransient<IBankTransactionRepository, BankTransactionRepository>();
     builder.Services.AddSingleton<IChannelService, ChannelService>();
-    
+
     builder.WebHost.UseUrls(Constants.BankFullAddress);
     builder.Host.UseNLog();
 
@@ -42,8 +44,8 @@ try
 
     app.Run();
 }
-catch (Exception exception)
+catch (Exception ex)
 {
-    logger.Error(exception, "Server stopped working due to exception");
+    logger.Error(ex, "Server stopped working due to exception");
     throw;
 }

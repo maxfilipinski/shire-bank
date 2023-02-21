@@ -34,7 +34,6 @@ internal static class Program
         cancelToken.Cancel();
 
         await inspector.FinishInspectionAsync(new FinishInspectionRequest());
-
         Console.ReadKey();
     }
 }

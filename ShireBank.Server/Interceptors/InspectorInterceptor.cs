@@ -2,6 +2,7 @@
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using ShireBank.Server.Services;
+using ShireBank.Server.Services.Interfaces;
 
 namespace ShireBank.Server.Interceptors;
 
@@ -23,14 +24,14 @@ public class InspectorInterceptor : Interceptor
     {
         try
         {
-            if (InspectorService.InspectionInProgress)
+            if (InspectorService.IsInspectionInProgress)
                 await _channelService.WriteToChannelAsync(request.ToString(), context.CancellationToken);
             
             return await continuation(request, context);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error thrown by {context.Method}.");
+            _logger.LogError(ex, $"Error thrown by {context.Method}");
             throw;
         }
     }

@@ -9,7 +9,7 @@ namespace ShireBank.Client;
 internal static class Program
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-    private static readonly object historyPrintLock = new();
+    private static readonly object HistoryPrintLock = new();
     
     private static async Task Main()
     {
@@ -20,12 +20,14 @@ internal static class Program
                 EnableMultipleHttp2Connections = true
             }
         });
+        
+        Logger.Info("Starting tasks execution...");
 
         Task[] tasks =
         {
             TestCustomerOne(channel),
-            // TestCustomerTwo(channel),
-            // TestCustomerThree(channel)
+            TestCustomerTwo(channel),
+            TestCustomerThree(channel)
         };
         Task.WaitAll(tasks);
         
@@ -39,7 +41,8 @@ internal static class Program
         var customerName = "Customer 1";
 
         await Task.Delay(TimeSpan.FromSeconds(10));
-        LogInfo(customerName, nameof(customer.OpenAccountAsync));
+        
+        LogOpenCloseAccountAction(customerName, nameof(customer.OpenAccount));
         var accountId = await customer.OpenAccountAsync(new OpenAccountRequest
         {
             FirstName = "Henrietta",
@@ -50,7 +53,7 @@ internal static class Program
         if (!accountId.AccountId.HasValue) 
             throw new Exception("Failed to open account");
         
-        LogInfo(customerName, nameof(customer.DepositAsync));
+        LogTransactionAction(customerName, 500.0m, nameof(customer.Deposit));
         await customer.DepositAsync(new DepositRequest
         {
             AccountId = accountId.AccountId.Value,
@@ -59,21 +62,21 @@ internal static class Program
         
         await Task.Delay(TimeSpan.FromSeconds(10));
         
-        LogInfo(customerName, nameof(customer.DepositAsync));
+        LogTransactionAction(customerName, 500.0m, nameof(customer.Deposit));
         await customer.DepositAsync(new DepositRequest
         {
             AccountId = accountId.AccountId.Value,
             Amount = 500.0m
         });
         
-        LogInfo(customerName, nameof(customer.DepositAsync));
+        LogTransactionAction(customerName, 1000.0m, nameof(customer.Deposit));
         await customer.DepositAsync(new DepositRequest
         {
             AccountId = accountId.AccountId.Value,
             Amount = 1000.0m
         });
         
-        LogInfo(customerName, nameof(customer.WithDrawAsync));
+        LogTransactionAction(customerName, 2000.0m, nameof(customer.WithDraw));
         var withdrawResponse = await customer.WithDrawAsync(new WithdrawRequest
         {
             AccountId = accountId.AccountId.Value,
@@ -83,7 +86,7 @@ internal static class Program
         if (2000.0m != withdrawResponse.Value)
             throw new Exception("Can't withdraw a valid amount");
         
-        lock (historyPrintLock)
+        lock (HistoryPrintLock)
         {
             Logger.Info($"=== {customerName} ===");
         
@@ -98,7 +101,7 @@ internal static class Program
             }
         }
         
-        LogInfo(customerName, nameof(customer.CloseAccountAsync));
+        LogOpenCloseAccountAction(customerName, nameof(customer.CloseAccount));
         var closeAccountResponse = await customer.CloseAccountAsync(new CloseAccountRequest
         {
             AccountId = accountId.AccountId.Value
@@ -120,20 +123,20 @@ internal static class Program
             DebtLimit = 50.0m
         };
 
-        LogInfo(customerName, nameof(customer.OpenAccountAsync));
+        LogOpenCloseAccountAction(customerName, nameof(customer.OpenAccount));
         var accountId = await customer.OpenAccountAsync(openAccountRequest);
 
         if (!accountId.AccountId.HasValue)
             throw new Exception("Failed to open account");
 
-        Logger.Info($"{customerName} - testing second {nameof(customer.OpenAccountAsync)}");
+        Logger.Info($"{customerName} - testing second operation {nameof(customer.OpenAccount)}");
         openAccountRequest.DebtLimit = 500.0m;
         var secondAccountId = await customer.OpenAccountAsync(openAccountRequest);
 
         if (secondAccountId.AccountId.HasValue)
             throw new Exception("Opened account for the same name twice!");
 
-        Logger.Info($"{customerName} - testing {nameof(customer.WithDrawAsync)} over available limit");
+        Logger.Info($"{customerName} - testing operation {nameof(customer.WithDraw)} over available limit");
         var withdrawResponse1 = await customer.WithDrawAsync(new WithdrawRequest
         {
             AccountId = accountId.AccountId.Value,
@@ -150,22 +153,22 @@ internal static class Program
             AccountId = accountId.AccountId.Value
         };
         
-        Logger.Info($"{customerName} - testing {nameof(customer.CloseAccountAsync)} with outstanding debt");
+        Logger.Info($"{customerName} - testing operation {nameof(customer.CloseAccount)} with outstanding debt");
         if ((await customer.CloseAccountAsync(closeAccountRequest)).IsClosed)
             throw new Exception("Can't close the account with outstanding debt");
         
-        LogInfo(customerName, nameof(customer.DepositAsync));
+        LogTransactionAction(customerName, 100.0m, nameof(customer.Deposit));
         await customer.DepositAsync(new DepositRequest
         {
             AccountId = accountId.AccountId.Value,
             Amount = 100.0m
         });
         
-        Logger.Info($"{customerName} - testing {nameof(customer.CloseAccountAsync)} with money still on account");
+        Logger.Info($"{customerName} - testing operation {nameof(customer.CloseAccount)} with money still on account");
         if ((await customer.CloseAccountAsync(closeAccountRequest)).IsClosed)
             throw new Exception("Can't close the account before clearing all funds");
         
-        LogInfo(customerName, nameof(customer.WithDrawAsync));
+        LogTransactionAction(customerName, 50.0m, nameof(customer.WithDraw));
         var withdrawResponse2 = await customer.WithDrawAsync(new WithdrawRequest
         {
             AccountId = accountId.AccountId.Value,
@@ -175,7 +178,7 @@ internal static class Program
         if (50.0m != withdrawResponse2.Value)
             throw new Exception("Can't withdraw a valid amount");
 
-        lock (historyPrintLock)
+        lock (HistoryPrintLock)
         {
             Logger.Info($"=== {customerName} ===");
         
@@ -190,7 +193,7 @@ internal static class Program
             }
         }
         
-        LogInfo(customerName, nameof(customer.CloseAccountAsync));
+        LogOpenCloseAccountAction(customerName, nameof(customer.CloseAccount));
         var closeAccountResponse = await customer.CloseAccountAsync(new CloseAccountRequest
         {
             AccountId = accountId.AccountId.Value
@@ -205,7 +208,7 @@ internal static class Program
         var customer = new Customer.CustomerClient(channel);
         var customerName = "Customer 3";
         
-        LogInfo(customerName, nameof(customer.OpenAccountAsync));
+        LogOpenCloseAccountAction(customerName, nameof(customer.OpenAccount));
         var accountId = await customer.OpenAccountAsync(new OpenAccountRequest
         {
             FirstName = "Gandalf",
@@ -222,7 +225,7 @@ internal static class Program
         {
             tasks.Add(Task.Run(async () =>
             {
-                LogInfo(customerName, nameof(customer.WithDrawAsync));
+                LogTransactionAction(customerName, 10.0m, nameof(customer.WithDraw));
                 var withdrawResponse = await customer.WithDrawAsync(new WithdrawRequest
                 {
                     AccountId = accountId.AccountId.Value,
@@ -238,7 +241,7 @@ internal static class Program
         {
             tasks.Add(Task.Run(async () =>
             {
-                LogInfo(customerName, nameof(customer.DepositAsync));
+                LogTransactionAction(customerName, 10.0m, nameof(customer.Deposit));
                 await customer.DepositAsync(new DepositRequest
                 {
                     AccountId = accountId.AccountId.Value,
@@ -251,7 +254,7 @@ internal static class Program
 
         await Task.Delay(TimeSpan.FromSeconds(10));
         
-        lock (historyPrintLock)
+        lock (HistoryPrintLock)
         {
             Logger.Info($"=== {customerName} ===");
         
@@ -266,7 +269,7 @@ internal static class Program
             }
         }
         
-        LogInfo(customerName, nameof(customer.CloseAccountAsync));
+        LogOpenCloseAccountAction(customerName, nameof(customer.CloseAccount));
         var closeAccountResponse = await customer.CloseAccountAsync(new CloseAccountRequest
         {
             AccountId = accountId.AccountId.Value
@@ -276,9 +279,14 @@ internal static class Program
             throw new Exception("Failed to close account");
     }
 
-    private static void LogInfo(string customerName, string action)
+    private static void LogOpenCloseAccountAction(string customerName, string action)
     {
-        Logger.Info($"{customerName} - testing {action}");
+        Logger.Info($"{customerName} - testing operation {action}");
+    }
+
+    private static void LogTransactionAction(string customerName, decimal amount, string action)
+    {
+        Logger.Info($"{customerName} - testing operation {action} {amount}");
     }
 }
 

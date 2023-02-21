@@ -8,10 +8,11 @@ public class BankTransaction
     {
     }
     
-    public BankTransaction(BankAccount account, decimal value)
+    public BankTransaction(BankAccount account, decimal value, BankTransactionType type)
     {
         Account = account;
         Value = value;
+        Type = type;
     }
     
     public Guid Id { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using ShireBank.Server.Services.Interfaces;
 using ShireBank.Shared.Protos;
 
 namespace ShireBank.Server.Services;
@@ -14,11 +15,11 @@ public class InspectorService : Inspector.InspectorBase
         _channelService = channelService;
     }
 
-    public static bool InspectionInProgress { get; set; } = false;
+    public static bool IsInspectionInProgress { get; private set; }
 
     public override Task<StartInspectionResponse> StartInspection(StartInspectionRequest request, ServerCallContext context)
     {
-        InspectionInProgress = true;
+        IsInspectionInProgress = true;
         _logger.LogInformation("Starting inspection...");
 
         return Task.FromResult(new StartInspectionResponse());
@@ -26,7 +27,7 @@ public class InspectorService : Inspector.InspectorBase
     
     public override Task<FinishInspectionResponse> FinishInspection(FinishInspectionRequest request, ServerCallContext context)
     {
-        InspectionInProgress = false;
+        IsInspectionInProgress = false;
         _logger.LogInformation("Inspection completed");
 
         return Task.FromResult(new FinishInspectionResponse());
@@ -34,8 +35,8 @@ public class InspectorService : Inspector.InspectorBase
     
     public override async Task GetFullSummary(GetFullSummaryRequest request, IServerStreamWriter<GetFullSummaryResponse> responseStream, ServerCallContext context)
     {
-        if (!InspectionInProgress)
-            throw new RpcException(new Status(StatusCode.Aborted, "Inspection is not in progress"));
+        if (!IsInspectionInProgress)
+            throw new RpcException(new Status(StatusCode.Aborted, "Inspection not in progress. Cannot retrieve full summary"));
 
         try
         {
