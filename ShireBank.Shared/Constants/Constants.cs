@@ -2,7 +2,5 @@
 
 public static class Constants
 {
-    public const string BankBaseAddress = "http://localhost";
-    public const int BankBasePort = 6999;
-    public static string BankFullAddress => $"{BankBaseAddress}:{BankBasePort}";
+    public static string BankFullAddress => "http://localhost:6999";
 }

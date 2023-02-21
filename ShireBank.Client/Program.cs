@@ -1,5 +1,6 @@
 ﻿using ShireBank.Shared;
 using Grpc.Core;
+using Grpc.Net.Client;
 using NLog;
 using ShireBank.Shared.Protos;
 
@@ -12,21 +13,19 @@ internal static class Program
     
     private static async Task Main()
     {
-        var channel = new Channel("localhost", Constants.BankBasePort, ChannelCredentials.Insecure);
-
-        await channel
-            .ConnectAsync()
-            .ContinueWith(task =>
+        using var channel = GrpcChannel.ForAddress(Constants.BankFullAddress, new GrpcChannelOptions
+        {
+            HttpHandler = new SocketsHttpHandler
             {
-                if (task.Status == TaskStatus.RanToCompletion)
-                    Logger.Info("Client connected successfully. Starting tasks execution...");
-            });
+                EnableMultipleHttp2Connections = true
+            }
+        });
 
         Task[] tasks =
         {
             TestCustomerOne(channel),
-            TestCustomerTwo(channel),
-            TestCustomerThree(channel)
+            // TestCustomerTwo(channel),
+            // TestCustomerThree(channel)
         };
         Task.WaitAll(tasks);
         

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "ShireBank.Shared.Protos";
+
+service Inspector {
+  rpc StartInspection (StartInspectionRequest) returns (StartInspectionResponse) {}
+  
+  rpc FinishInspection (FinishInspectionRequest) returns (FinishInspectionResponse) {}
+  
+  rpc GetFullSummary (stream GetFullSummaryRequest) returns (stream GetFullSummaryResponse) {}
+}
+
+message StartInspectionRequest {}
+
+message StartInspectionResponse {}
+
+message FinishInspectionRequest {}
+
+message FinishInspectionResponse {}
+
+message GetFullSummaryRequest {}
+
+message GetFullSummaryResponse {
+  string summary = 1;
+}

@@ -16,6 +16,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
         <PackageReference Include="NLog" Version="5.1.2" />
+        <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +26,7 @@
 
     <ItemGroup>
         <Protobuf ProtoRoot=".." Include="..\ShireBank.Shared\Protos\customer.proto" Link="Protos\customer.proto" GrpcServices="Server" ProtoCompile="False" />
+        <Protobuf ProtoRoot=".." Include="..\ShireBank.Shared\Protos\inspector.proto" Link="Protos\inspector.proto" GrpcServices="Server" ProtoCompile="False" />
     </ItemGroup>
 
 </Project>
