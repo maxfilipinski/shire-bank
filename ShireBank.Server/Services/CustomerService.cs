@@ -31,7 +31,7 @@ public class CustomerService : Customer.CustomerBase
 
         return new OpenAccountResponse
         {
-            AccountId = account.Id
+            AccountId = account?.Id
         };
     }
 
