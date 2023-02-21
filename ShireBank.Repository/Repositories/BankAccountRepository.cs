@@ -19,8 +19,7 @@ public class BankAccountRepository : IBankAccountRepository
         var isAccountOpened = await _context.Accounts
             .Where(x =>
                 x.FirstName == firstName 
-                && x.LastName == lastName 
-                && !x.IsClosed)
+                && x.LastName == lastName)
             .AnyAsync();
         
         if (isAccountOpened) 

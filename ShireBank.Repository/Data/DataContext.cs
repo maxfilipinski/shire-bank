@@ -37,11 +37,6 @@ public class DataContext : DbContext
             .HasDefaultValue(0f)
             .IsRequired();
 
-        modelBuilder.Entity<BankAccount>()
-            .Property(x => x.IsClosed)
-            .HasDefaultValue(false)
-            .IsRequired();
-
         modelBuilder.Entity<BankTransaction>()
             .ToTable("Transactions");
 

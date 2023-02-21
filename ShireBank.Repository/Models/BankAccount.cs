@@ -7,6 +7,5 @@ public class BankAccount
     public string LastName { get; set; }
     public decimal DebtLimit { get; set; }
     public decimal Balance { get; set; }
-    public bool IsClosed { get; set; }
     public IEnumerable<BankTransaction> Transactions { get; private set; }
 }
