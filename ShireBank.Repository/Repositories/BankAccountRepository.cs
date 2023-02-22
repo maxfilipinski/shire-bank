@@ -75,4 +75,10 @@ public class BankAccountRepository : IBankAccountRepository
 
         await _context.SaveChangesAsync();
     }
+
+    public Task<BankAccount?> GetAccount(uint accountId)
+    {
+        return _context.Accounts
+            .FirstOrDefaultAsync(x => x.Id == accountId);
+    }
 }

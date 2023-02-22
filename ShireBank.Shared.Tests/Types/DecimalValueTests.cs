@@ -3,6 +3,7 @@ using ShireBank.Shared.Types;
 
 namespace ShireBank.Shared.Tests.Types;
 
+[TestFixture]
 public class DecimalValueTests
 {
     [Test]

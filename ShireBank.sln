@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Inspector", "Shir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Shared.Tests", "ShireBank.Shared.Tests\ShireBank.Shared.Tests.csproj", "{6BC1DDCF-288D-4B0E-A349-C05DF1A3A3EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Repository.Tests", "ShireBank.Repository.Tests\ShireBank.Repository.Tests.csproj", "{2613F9B7-BB21-4238-863B-5049F25288B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{6BC1DDCF-288D-4B0E-A349-C05DF1A3A3EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BC1DDCF-288D-4B0E-A349-C05DF1A3A3EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BC1DDCF-288D-4B0E-A349-C05DF1A3A3EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2613F9B7-BB21-4238-863B-5049F25288B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2613F9B7-BB21-4238-863B-5049F25288B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2613F9B7-BB21-4238-863B-5049F25288B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2613F9B7-BB21-4238-863B-5049F25288B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
